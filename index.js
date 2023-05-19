@@ -29,9 +29,21 @@ async function run() {
       res.send(toys);
     });
 
+    app.get('/alltoys', async (req, res) => {
+      const toys = await toyCollection.find().limit(20).toArray();
+      res.send(toys);
+    });
+
     app.get('/gallery', async (req, res) => {
       const toys = await toyCollection.find().limit(6).toArray();
       res.send(toys);
+    });
+
+    app.get('/search', async (req, res) => {
+      const search = req.query.name;
+      const query = { name: { $regex: search, $options: 'i' } };
+      const result = await toyCollection.find(query).toArray();
+      res.send(result);
     });
 
     app.get('/toy/:id', async (req, res) => {

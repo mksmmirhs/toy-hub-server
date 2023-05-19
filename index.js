@@ -46,13 +46,6 @@ async function run() {
       res.send(result);
     });
 
-    app.post('/add', async (req, res) => {
-      const toy = req.body;
-      console.log(toy);
-      const result = await toyCollection.insertOne(toy);
-      res.send(result);
-    });
-
     app.get('/toy/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
@@ -60,6 +53,20 @@ async function run() {
       res.send(result);
     });
 
+    app.get('/mytoys', async (req, res) => {
+      const email = req.query.email;
+      const query = { seller_email: email };
+      const result = await toyCollection.find(query).toArray();
+      console.log(result);
+      res.send(result);
+    });
+
+    app.post('/add', async (req, res) => {
+      const toy = req.body;
+      console.log(toy);
+      const result = await toyCollection.insertOne(toy);
+      res.send(result);
+    });
     // Send a ping to confirm a successful connection
     await client.db('admin').command({ ping: 1 });
     console.log(

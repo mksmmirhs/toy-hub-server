@@ -24,6 +24,16 @@ async function run() {
 
     const toyCollection = client.db('ToyCityDB').collection('toys');
 
+    app.get('/toys', async (req, res) => {
+      const toys = await toyCollection.find().toArray();
+      res.send(toys);
+    });
+
+    app.get('/gallery', async (req, res) => {
+      const toys = await toyCollection.find().limit(6).toArray();
+      res.send(toys);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db('admin').command({ ping: 1 });
     console.log(

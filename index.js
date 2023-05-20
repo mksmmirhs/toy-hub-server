@@ -35,7 +35,7 @@ async function run() {
     });
 
     app.get('/gallery', async (req, res) => {
-      const toys = await toyCollection.find().limit(6).toArray();
+      const toys = await toyCollection.find().limit(9).toArray();
       res.send(toys);
     });
 
@@ -57,6 +57,16 @@ async function run() {
       const email = req.query.email;
       const query = { seller_email: email };
       const result = await toyCollection.find(query).toArray();
+      console.log(result);
+      res.send(result);
+    });
+    app.get('/descending', async (req, res) => {
+      const email = req.query.email;
+      const query = { seller_email: email };
+      const result = await toyCollection
+        .find(query)
+        .sort({ price: -1 })
+        .toArray();
       console.log(result);
       res.send(result);
     });

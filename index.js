@@ -68,6 +68,22 @@ async function run() {
       res.send(result);
     });
 
+    app.put('/toy/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updateToy = req.body;
+      const toy = {
+        $set: {
+          price: updateToy.price,
+          available_quantity: updateToy.quantity,
+          description: updateToy.description,
+        },
+      };
+
+      const result = await toyCollection.updateOne(filter, toy);
+      res.send(result);
+    });
+
     app.delete('/mytoys/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
